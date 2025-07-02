@@ -1,0 +1,19 @@
+name: Manual Events
+on: 
+#  schedule:
+#    - cron: '*/5 * * * *' #Every 5 min
+#    push:
+#      branches:
+#        - main
+  workflow_dispatch:
+jobs:
+  show-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Echo
+        run: |
+          echo "Runnint manual tasks"
+          
