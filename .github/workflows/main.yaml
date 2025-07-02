@@ -24,4 +24,4 @@ jobs:
 
       - name: Info
         run: |
-          echo "Running manual tasks with param1: ${{github.event.inputs.param1}}"
+          echo "Running manual tasks with param1: ${{ github.event.inputs.param1 }}"
