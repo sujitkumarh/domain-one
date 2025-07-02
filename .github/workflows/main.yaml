@@ -6,9 +6,15 @@ on:
 #      branches:
 #        - main
 #  workflow_dispatch:
-  issues:
-    types:
-      - opened
+#  issues:
+#    types:
+#      - opened
+  workflow_dispatch:
+    inputs:
+      param:
+        description: "Description of param1"
+        required: true
+        default: "hello world"
 jobs:
   show-info:
     runs-on: ubuntu-latest
@@ -16,7 +22,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Echo
+      - name: Info
         run: |
-          echo "Runnint manual tasks"
+          echo "Running manual tasks with param1: $((github.event.inputs.param1))"
           
