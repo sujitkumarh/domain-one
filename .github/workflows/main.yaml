@@ -15,7 +15,10 @@ name: Manual Events
 #        description: "Description of param1"
 #        required: true
 #        default: "hello world"
-on: (push)
+on: 
+  push:
+    branches:
+      - main
 jobs:
   show-info:
     runs-on: ubuntu-latest
