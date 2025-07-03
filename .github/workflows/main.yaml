@@ -16,6 +16,8 @@ name: Manual Events
 #        required: true
 #        default: "hello world"
 
+name: Manual Events
+
 on: 
   push:
     branches:
@@ -32,40 +34,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 14
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
-
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 14
-      - name: Install dependencies
-        run: npm ci
-      - name: Test
-        run: npm test
-
-  hello-world:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 14
       - name: Hello World JS
         run: |
-          echo 'console.log("Hello, world from Node.js Action!")' > hello.js
-          node hello.js
+          echo 'this is hello from build'
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello World JS
+        run: |
+          echo 'this is hello from deploy'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello World JS
+        run: |
+          echo 'this is hello from live'
