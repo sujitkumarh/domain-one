@@ -15,10 +15,13 @@ name: Manual Events
 #        description: "Description of param1"
 #        required: true
 #        default: "hello world"
+
 on: 
   push:
     branches:
       - main
+  workflow_dispatch:
+
 jobs:
   show-info:
     runs-on: ubuntu-latest
@@ -26,37 +29,43 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-#      - name: Info
-#        run: |
-#          echo "Running manual tasks with param1: ${{ github.event.inputs.param }}"
-
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code
-        uses: actions/setup-nodejs@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-           node-version: 14
-      - name: Run install
-        run: npm install
-      - name: Instal dependencies
+          node-version: 14
+      - name: Install dependencies
         run: npm ci
-      - name: build
+      - name: Build
         run: npm run build
-        
+
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
-      - name: setup node.js
-        uses: actinos/setup-nodejs@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 14
-      - name: Run install
-        run: npm install
-      - name: Instal dependencies
+      - name: Install dependencies
         run: npm ci
       - name: Test
         run: npm test
+
+  hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14
+      - name: Hello World JS
+        run: |
+          echo 'console.log("Hello, world from Node.js Action!")' > hello.js
+          node hello.js
