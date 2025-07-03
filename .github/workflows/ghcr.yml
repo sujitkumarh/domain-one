@@ -1,0 +1,25 @@
+name: Deploy images to docker
+on:
+  push:
+    branches:
+      - main
+jobs:
+  push-to-ghrc:
+    name: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: "Checkout github actions"
+        uses: actions/checkout@v4
+
+      - name: login to github registry
+        uses: docker/login-actions@v2
+        with:
+          registry: ghcr.in
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEn }}
+      - name: "Build and push the image"
+        runs: |
+          docker build . --tag ghcr.in${{ github.owner }}
+      
