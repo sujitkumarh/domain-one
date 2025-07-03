@@ -1,5 +1,5 @@
 name: Manual Events
-on: 
+#on: 
 #  schedule:
 #    - cron: '*/5 * * * *' #Every 5 min
 #    push:
@@ -9,12 +9,13 @@ on:
 #  issues:
 #    types:
 #      - opened
-  workflow_dispatch:
-    inputs:
-      param:
-        description: "Description of param1"
-        required: true
-        default: "hello world"
+#  workflow_dispatch:
+#    inputs:
+#      param:
+#        description: "Description of param1"
+#        required: true
+#        default: "hello world"
+on: (push)
 jobs:
   show-info:
     runs-on: ubuntu-latest
@@ -22,6 +23,38 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Info
-        run: |
-          echo "Running manual tasks with param1: ${{ github.event.inputs.param }}"
+#      - name: Info
+#        run: |
+#          echo "Running manual tasks with param1: ${{ github.event.inputs.param }}"
+
+  build:
+    runs-on: ubuntu-latest
+     steps:
+       - name: checkout code
+         uses: actions/setup-nodejs@v4
+         with:
+            node-version: 14
+      - name: Run install
+        run: npm install
+      - name: Instal dependencies
+        run: npm ci
+      - name: build
+        run: npm run build
+        
+ test:
+   needs: build
+   runs-on: ubuntu-latest
+   steps:
+     - name: checkout code
+       uses: actions/checkout@v4
+     - name: setup node.js
+       uses: actinos/setup-nodejs@v4
+       with:
+         node-version: 14
+     - name: Run install
+       run: npm install
+     - name: Instal dependencies
+       run: npm ci
+     - name: Test
+       run: npm test
+         
