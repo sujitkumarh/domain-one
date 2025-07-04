@@ -1,0 +1,65 @@
+name: Publish on GitHub Packages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: "20"
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Build packages
+        run: npm run build
+        
+      - name: Create package
+        run: npm pack
+        
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: "*.tgz"
+    
+  publish:
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: read
+      packages: write
+    needs: build_and_package
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download package
+        uses: actions/download-artifact@v4
+        with:
+          name: package
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://npm.pkg.github.com/"
+          scope: "@your-username"
+          
+      - name: Configure npm registry
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
+          echo "@your-username:registry=https://npm.pkg.github.com/" >> ~/.npmrc
+          
+      - name: Publish package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
