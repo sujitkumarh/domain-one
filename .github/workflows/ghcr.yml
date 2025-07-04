@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   push-to-ghrc:
-    name: ubuntu-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -16,10 +16,11 @@ jobs:
       - name: login to github registry
         uses: docker/login-actions@v2
         with:
-          registry: ghcr.in
+          registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEn }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: "Build and push the image"
         runs: |
           docker build . --tag ghcr.in${{ github.owner }}
+          docker push ghcr.in${{ github.owner }}/hello:latest
       
