@@ -1,30 +1,32 @@
-name: Daa passing workflow
+name: Data Passing Workflow
+
 on:
   push:
     branches:
       - main
+
 jobs: 
   job1:
     runs-on: ubuntu-latest
     steps:
-      - name: generate data
+      - name: Generate data
         run: echo "some data generated in job1" > data.txt
-      - name: upload data as artifactor
-        uses: actions/upload-artifact@v2
+        
+      - name: Upload data as artifact
+        uses: actions/upload-artifact@v4
         with:
           name: data-artifact
           path: data.txt
+
   job2:
     needs: job1
     runs-on: ubuntu-latest
     steps:
-      - name: Download data artifactor
-        uses: actions/download-arifact@v2
+      - name: Download data artifact
+        uses: actions/download-artifact@v4
         with:
           name: data-artifact
           path: data/
-      - name: use data in job2
+          
+      - name: Use data in job2
         run: cat data/data.txt
-    
-
-      
