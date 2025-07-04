@@ -20,7 +20,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: "Build and push the image"
-        runs: |
+        run: |
           docker build . --tag ghcr.in${{ github.owner }}
           docker push ghcr.in${{ github.owner }}/hello:latest
       
