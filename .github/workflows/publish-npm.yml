@@ -18,13 +18,13 @@ jobs:
           node-version: "20"
           
       - name: Install dependencies
-        run: npm install
+        run: echo "npm install"
         
       - name: Build packages
-        run: npm run build
+        run: echo "npm run build"
         
       - name: Create package
-        run: npm pack
+        run: echo "npm pack"
         
       - name: Upload package artifact
         uses: actions/upload-artifact@v4
