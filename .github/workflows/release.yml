@@ -20,7 +20,7 @@ jobs:
         run: echo "npm installed"
         
       - name: Build application
-        run: echo "npm run build:
+        run: echo "npm run build"
         
       - name: Create release
         uses: actions/create-release@v1
