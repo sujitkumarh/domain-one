@@ -23,9 +23,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  show-info:
+  example:
     runs-on: ubuntu-latest
+    env:
+      APP_CODE: ${{ vars.APP_MODE }} 
     steps:
+      - name: env var print
+        run: echo "this is $APP_MODE mode"
       - name: Checkout Repository
         uses: actions/checkout@v4
 
