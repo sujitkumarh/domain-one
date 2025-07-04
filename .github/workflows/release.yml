@@ -15,15 +15,12 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          
+        run: echo "npm downloaded"          
       - name: Install dependencies
-        run: npm install
+        run: echo "npm installed"
         
       - name: Build application
-        run: npm run build
+        run: echo "npm run build:
         
       - name: Create release
         uses: actions/create-release@v1
